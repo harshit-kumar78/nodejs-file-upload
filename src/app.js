@@ -6,14 +6,13 @@ var multer = require('multer');
 var storage = multer.diskStorage({
   destination: './public/uploads/',
   filename: function (req, file, callback) {
-    console.log(file);
     callback(null, file.originalname);
   },
 });
 var upload = multer({ storage: storage });
-app.post('/fileUpload', upload.single('profile'), (req, res) => {
+app.post('/fileUpload', upload.array('profile', 2), (req, res) => {
   try {
-    res.send(req.file);
+    res.send(req.files);
   } catch (err) {
     res.send(400);
   }
